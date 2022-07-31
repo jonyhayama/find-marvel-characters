@@ -1,0 +1,9 @@
+{
+  "name": "pg-rails-vue-autocomplete-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd ./frontend && npm install",
+    "build": "cd ./frontend && npm run build"
+  }
+}

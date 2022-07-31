@@ -1,0 +1,23 @@
+version: "3.1"
+services:
+  postgres:
+    image: "postgres:14.4"
+    networks:
+      - pg-rails-vue-autocomplete-example-network
+    ports:
+      - "5432:5432"
+    restart: always
+    command: postgres -c listen_addresses='*'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=pg_rails_vue_autocomplete_example_development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  pgdata:
+
+networks:
+  pg-rails-vue-autocomplete-example-network:
+    driver: bridge
