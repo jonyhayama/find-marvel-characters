@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   namespace :api do
     root "home#index"
+
+    resources :characters, only: [:index]
   end
 
   get '/*path', to: 'static_pages#index'
