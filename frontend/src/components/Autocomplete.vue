@@ -7,6 +7,7 @@ const search = ref('');
 const results = ref([]);
 const hasError = ref(false);
 const isLoading = ref(false);
+const searches = ref({});
 
 const debouncedSearch = (event) => {
   clearTimeout(timeout.value);
@@ -18,21 +19,26 @@ const debouncedSearch = (event) => {
 watch(search, async (newSearch, _oldVal) => {
   if(!newSearch) {
     results.value = [];
+    return;
   }
 
-  if(newSearch) {
-    hasError.value = false;
-    isLoading.value = true;
-
-    const response = await fetch(`${API_URL}/api/characters?${new URLSearchParams({ query: newSearch })}`);
-    if (response.ok) {
-      const { data } = await response.json();
-      results.value = data
-    } else {
-      hasError.value = true;
-    }
-    isLoading.value = false;
+  if(Object.keys(searches.value).includes(newSearch)) {
+    results.value = searches.value[newSearch];
+    return;
   }
+
+  hasError.value = false;
+  isLoading.value = true;
+
+  const response = await fetch(`${API_URL}/api/characters?${new URLSearchParams({ query: newSearch })}`);
+  if (response.ok) {
+    const { data } = await response.json();
+    searches.value[newSearch] = data;
+    results.value = data;
+  } else {
+    hasError.value = true;
+  }
+  isLoading.value = false;
 })
 </script>
 
