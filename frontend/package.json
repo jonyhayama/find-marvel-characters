@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@picocss/pico": "^1.5.3",
+    "sass": "^1.54.4",
     "vue": "^3.2.37"
   },
   "devDependencies": {
