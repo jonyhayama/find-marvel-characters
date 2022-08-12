@@ -31,3 +31,13 @@ onMounted(async () => {
     </div>
   </footer>
 </template>
+
+<style lang="scss" scoped>
+  main {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  h1 {
+    margin-bottom: 0;
+  }
+</style>
