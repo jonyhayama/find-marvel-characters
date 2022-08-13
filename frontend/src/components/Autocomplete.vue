@@ -5,9 +5,8 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 const timeout = ref(null);
 const search = ref('');
 const results = ref([]);
-const hasError = ref(false);
-const isLoading = ref(false);
 const searches = ref({});
+const state = ref('idle');
 
 const debouncedSearch = (event) => {
   clearTimeout(timeout.value);
@@ -19,26 +18,26 @@ const debouncedSearch = (event) => {
 watch(search, async (newSearch, _oldVal) => {
   if(!newSearch) {
     results.value = [];
+    state.value = 'idle';
     return;
   }
 
   if(Object.keys(searches.value).includes(newSearch)) {
     results.value = searches.value[newSearch];
+    state.value = 'success';
     return;
   }
 
-  hasError.value = false;
-  isLoading.value = true;
-
+  state.value = 'loading';
   const response = await fetch(`${API_URL}/api/characters?${new URLSearchParams({ query: newSearch })}`);
   if (response.ok) {
     const { data } = await response.json();
     searches.value[newSearch] = data;
     results.value = data;
+    state.value = 'success';
   } else {
-    hasError.value = true;
+    state.value = 'error';
   }
-  isLoading.value = false;
 })
 </script>
 
@@ -46,14 +45,14 @@ watch(search, async (newSearch, _oldVal) => {
   <label>Type a character name</label>
   <input type="text" @input="debouncedSearch" />
 
-  <div v-if="hasError">
+  <div v-if="state === 'error'">
     Oops, something went wrong, try again later.
   </div>
-  <div v-if="isLoading">
+  <div v-if="state === 'loading'">
     Searching...
   </div>
-  <template v-if="!isLoading && !hasError" >
-    <div v-if="results.length === 0 && search">No characters found with your search term.</div>
+  <template v-if="state === 'success'" >
+    <div v-if="results.length === 0">No characters found with your search term.</div>
     <div v-else class="grid">
       <div v-for="character in results" :key="character.id" :value="character.id">
         <img :src="character.thumbnail_url" />
