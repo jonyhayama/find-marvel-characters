@@ -52,12 +52,15 @@ watch(search, async (newSearch, _oldVal) => {
   <div v-if="isLoading">
     Searching...
   </div>
-  <div v-if="!isLoading && !hasError" class="grid">
-    <div v-for="character in results" :key="character.id" :value="character.id">
-      <img :src="character.thumbnail_url" />
-      <span>{{ character.name }}</span>
+  <template v-if="!isLoading && !hasError" >
+    <div v-if="results.length === 0 && search">No characters found with your search term.</div>
+    <div v-else class="grid">
+      <div v-for="character in results" :key="character.id" :value="character.id">
+        <img :src="character.thumbnail_url" />
+        <span>{{ character.name }}</span>
+      </div>
     </div>
-  </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>
