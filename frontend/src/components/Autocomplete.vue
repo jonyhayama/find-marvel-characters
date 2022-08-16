@@ -43,13 +43,10 @@ watch(search, async (newSearch, _oldVal) => {
 
 <template>
   <label>Type a character name</label>
-  <input type="text" @input="debouncedSearch" />
+  <input type="text" @input="debouncedSearch" :aria-busy="state === 'loading'"  />
 
   <div v-if="state === 'error'">
     Oops, something went wrong, try again later.
-  </div>
-  <div v-if="state === 'loading'">
-    Searching...
   </div>
   <template v-if="state === 'success'" >
     <div v-if="results.length === 0">No characters found with your search term.</div>
