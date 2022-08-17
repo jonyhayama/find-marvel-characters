@@ -43,9 +43,13 @@ watch(search, async (newSearch, _oldVal) => {
 
 <template>
   <label>Type a character name</label>
-  <input type="text" @input="debouncedSearch" :aria-busy="state === 'loading'"  />
-
-  <div v-if="state === 'error'">
+  <input
+    type="text"
+    @input="debouncedSearch"
+    :aria-busy="state === 'loading'"
+    :aria-invalid="state === 'error' ? true : null"
+  />
+  <div v-if="state === 'error'" class="error-msg">
     Oops, something went wrong, try again later.
   </div>
   <template v-if="state === 'success'" >
@@ -82,5 +86,11 @@ watch(search, async (newSearch, _oldVal) => {
       }
     }
   }
+}
+
+.error-msg {
+  font-size: 0.75em;
+  color: var(--del-color);
+  margin-top: -1em;
 }
 </style>
