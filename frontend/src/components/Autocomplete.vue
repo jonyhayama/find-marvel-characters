@@ -15,29 +15,33 @@ const debouncedSearch = (event) => {
   }, 300);
 }
 
-watch(search, async (newSearch, _oldVal) => {
-  if(!newSearch) {
+const doSearch = async () => {
+  if(!search.value) {
     results.value = [];
     state.value = 'idle';
     return;
   }
 
-  if(Object.keys(searches.value).includes(newSearch)) {
-    results.value = searches.value[newSearch];
+  if(Object.keys(searches.value).includes(search.value)) {
+    results.value = searches.value[search.value];
     state.value = 'success';
     return;
   }
 
   state.value = 'loading';
-  const response = await fetch(`${API_URL}/api/characters?${new URLSearchParams({ query: newSearch })}`);
+  const response = await fetch(`${API_URL}/api/characters?${new URLSearchParams({ query: search.value })}`);
   if (response.ok) {
     const { data } = await response.json();
-    searches.value[newSearch] = data;
+    searches.value[search.value] = data;
     results.value = data;
     state.value = 'success';
   } else {
     state.value = 'error';
   }
+}
+
+watch(search, async (_newVal, _oldVal) => {
+  doSearch();
 })
 </script>
 
@@ -46,6 +50,7 @@ watch(search, async (newSearch, _oldVal) => {
   <input
     type="text"
     @input="debouncedSearch"
+    @keyup.enter="doSearch"
     :aria-busy="state === 'loading'"
     :aria-invalid="state === 'error' ? true : null"
   />
