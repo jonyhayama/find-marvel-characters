@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :api do
     root "home#index"
 
-    resources :characters, only: [:index]
+    resources :characters, only: [:index, :show]
   end
 
   get '/*path', to: 'static_pages#index'

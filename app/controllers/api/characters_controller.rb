@@ -5,4 +5,8 @@ class Api::CharactersController < ApplicationController
 
     expires_in 10.minutes
   end
+
+  def show
+    @character = Character.find(params[:id])
+  end
 end
