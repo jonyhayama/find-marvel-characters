@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router'
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 const timeout = ref(null);
@@ -7,6 +8,7 @@ const search = ref('');
 const results = ref([]);
 const searches = ref({});
 const state = ref('idle');
+const router = useRouter();
 
 const debouncedSearch = (event) => {
   clearTimeout(timeout.value);
@@ -40,6 +42,10 @@ const doSearch = async () => {
   }
 }
 
+const goToCharacter = (character) => {
+  router.push({ name: 'character', params: { character: character.id } })
+}
+
 watch(search, async (_newVal, _oldVal) => {
   doSearch();
 })
@@ -60,7 +66,7 @@ watch(search, async (_newVal, _oldVal) => {
   <template v-if="state === 'success'" >
     <div v-if="results.length === 0">No characters found with your search term.</div>
     <div v-else class="grid">
-      <div v-for="character in results" :key="character.id" :value="character.id">
+      <div v-for="character in results" :key="character.id" :value="character.id" @click="goToCharacter(character)">
         <img :src="character.thumbnail_url" />
         <span>{{ character.name }}</span>
       </div>
