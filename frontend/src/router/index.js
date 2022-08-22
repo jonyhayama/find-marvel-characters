@@ -23,9 +23,27 @@ const router = createRouter({
           const { data } = await response.json();
           to.params.character = data;
         } else {
-          console.warn('ERROR')
+          const routeName = (response.status === 404) ? 'not-found' : 'error'
+          return {
+            name: routeName,
+            params: {
+              pathMatch: to.path.substring(1).split('/')
+            },
+            query: to.query,
+            hash: to.hash
+          }
         }
       }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../components/NotFound.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'error',
+      component: () => import('../components/Error.vue')
     }
   ]
 })
