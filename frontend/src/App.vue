@@ -1,10 +1,19 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
+const router = useRouter();
+
+const goHome = () => {
+  router.push({ name: 'home' })
+}
 </script>
 
 <template>
   <header class="container">
-    <h1>Find Marvel Characters</h1>
+    <h1>
+      <span @click="goHome">
+        Find Marvel Characters
+      </span>
+    </h1>
   </header>
   <main class="container">
     <RouterView />
