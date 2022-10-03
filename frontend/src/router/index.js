@@ -20,8 +20,8 @@ const router = createRouter({
 
         const response = await fetch(`${API_URL}/api/characters/${character}`);
         if (response.ok) {
-          const { data } = await response.json();
-          to.params.character = data;
+          const { data, externalData } = await response.json();
+          to.params.character = { ...data, externalData };
         } else {
           const routeName = (response.status === 404) ? 'not-found' : 'error'
           return {
