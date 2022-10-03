@@ -31,3 +31,7 @@
 # Ignore /public files since they'll generated in build time by Vite)
 /public/*
 !/public/.keep
+
+# Ignore dotenv
+.env.local
+.env
