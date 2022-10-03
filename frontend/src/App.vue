@@ -21,7 +21,7 @@ const goHome = () => {
   <footer>
     <hr />
     <div class="container">
-      Footer notes
+      Data provided by Marvel. © 2022 <strong>MARVEL</strong>
     </div>
   </footer>
 </template>
