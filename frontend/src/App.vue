@@ -1,6 +1,9 @@
 <script setup>
 import { RouterView, useRouter } from 'vue-router'
+import useRouteLoading from '@/composables/useRouteLoading'
+
 const router = useRouter();
+const { isLoading } = useRouteLoading();
 
 const goHome = () => {
   router.push({ name: 'home' })
@@ -8,32 +11,57 @@ const goHome = () => {
 </script>
 
 <template>
-  <header class="container">
-    <h1>
-      <span @click="goHome">
-        Find Marvel Characters
-      </span>
-    </h1>
-  </header>
-  <main class="container">
-    <RouterView />
-  </main>
-  <footer>
-    <hr />
-    <div class="container">
-      Data provided by Marvel. © 2022 <strong>MARVEL</strong>
-    </div>
-  </footer>
+  <div class="main-wrapper" :aria-busy="isLoading">
+    <header class="container">
+      <h1>
+        <span @click="goHome">
+          Find Marvel Characters
+        </span>
+      </h1>
+    </header>
+    <main class="container">
+      <RouterView />
+    </main>
+    <footer>
+      <hr />
+      <div class="container">
+        Data provided by Marvel. © 2022 <strong>MARVEL</strong>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  main {
-    padding-top: 0;
-    padding-bottom: 0;
+.main-wrapper {
+  position: relative;
+  min-height: 100vh;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    transition: all .3s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
   }
-  h1 {
-    margin-bottom: 0;
+
+  &[aria-busy=true]{
+    &:before {
+      position: absolute;
+      top: calc(50% - 0.5em);
+      left: calc(50% - 0.5em);
+    }
+
+    &:after {
+      visibility: visible;
+      opacity: 0.1;
+    }
   }
+}
 </style>
 
 <style lang="scss">

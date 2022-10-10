@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Autocomplete from '../components/Autocomplete.vue'
+import useRouteLoading from '@/composables/useRouteLoading'
+const { setLoading } = useRouteLoading()
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +48,12 @@ const router = createRouter({
       component: () => import('../components/Error.vue')
     }
   ]
+})
+router.beforeEach(() => {
+  setLoading(true);
+})
+router.afterEach(() => {
+  setLoading(false);
 })
 
 export default router
