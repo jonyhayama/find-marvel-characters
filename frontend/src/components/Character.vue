@@ -35,3 +35,11 @@ const sections = [
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@media screen and (min-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>

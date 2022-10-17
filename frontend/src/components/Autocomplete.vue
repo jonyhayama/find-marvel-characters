@@ -85,6 +85,12 @@ watch(search, async (_newVal, _oldVal) => {
     background: var(--code-background-color);
     display: flex;
     align-items: center;
+    cursor: pointer;
+    transition: background .3s ease-in-out;
+
+    &:hover {
+      background: var(--primary-focus);
+    }
 
     img {
       width: 80px;

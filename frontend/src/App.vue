@@ -13,7 +13,7 @@ const goHome = () => {
 <template>
   <div class="main-wrapper" :aria-busy="isLoading">
     <header class="container">
-      <h1>
+      <h1 class="logo">
         <span @click="goHome">
           Find Marvel Characters
         </span>
@@ -35,6 +35,21 @@ const goHome = () => {
 .main-wrapper {
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  & > main.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  & > footer {
+    padding-bottom: 1ch;
+  }
 
   &:after {
     content: '';
@@ -59,6 +74,14 @@ const goHome = () => {
     &:after {
       visibility: visible;
       opacity: 0.1;
+    }
+  }
+
+  .logo  {
+    margin-bottom: 0;
+
+    & > span {
+      cursor: pointer;
     }
   }
 }
