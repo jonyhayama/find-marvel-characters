@@ -16,6 +16,7 @@ WORKDIR /usr/src/app
 
 RUN gem install bundler:2.3.7
 RUN bundle install
+RUN npm install
 RUN npm run build
 
 EXPOSE 3000
