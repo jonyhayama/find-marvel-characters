@@ -12,7 +12,7 @@ services:
       - postgres
     stdin_open: true
     tty: true
-    restart: always
+    restart: "no"
     networks:
       - pg-rails-vue-autocomplete-example-network
 
@@ -22,7 +22,7 @@ services:
       - pg-rails-vue-autocomplete-example-network
     ports:
       - "5432:5432"
-    restart: always
+    restart: "no"
     command: postgres -c listen_addresses='*'
     volumes:
       - pgdata:/var/lib/postgresql/data
